@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 2013350989205681238}
   - component: {fileID: 2874927527619338203}
   - component: {fileID: 2437955019409610099}
+  - component: {fileID: 8462561890286451883}
   - component: {fileID: 2530479181041200676}
   m_Layer: 0
   m_Name: Player
@@ -444,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3295542891
+  GlobalObjectIdHash: 2761525183
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -501,6 +502,20 @@ MonoBehaviour:
   rb: {fileID: 2530479181041200676}
   moveSpeed: 4
   turnSpeed: 135
+--- !u!114 &8462561890286451883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276814752347565768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f8f72e7bf1ab84bacc58461bc8beae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: 6e9388fff05e3e9439f5cb6be5068408, type: 2}
+  turretTransform: {fileID: 608557890907454374}
 --- !u!50 &2530479181041200676
 Rigidbody2D:
   serializedVersion: 4
