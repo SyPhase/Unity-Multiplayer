@@ -1,0 +1,44 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using static Controls;
+
+[CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/Input Reader")]
+public class InputReader : ScriptableObject, IPlayerActions
+{
+    public event Action<Vector2> MoveEvent;
+
+    public event Action<bool> PrimaryEvent;
+
+    Controls controls;
+
+    private void OnEnable()
+    {
+        if (controls == null)
+        {
+            controls = new Controls();
+            controls.Player.SetCallbacks(this);
+        }
+
+        controls.Player.Enable();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        MoveEvent?.Invoke(context.ReadValue<Vector2>()); // the ? just checks for null before firing event
+    }
+
+    public void OnPrimary(InputAction.CallbackContext context)
+    {
+        if (context.performed) // Section 2, Lecture 9, he uses context.performed, I would use context.started
+        {
+            PrimaryEvent?.Invoke(true);
+        }
+        else if (context.canceled)
+        {
+            PrimaryEvent?.Invoke(false);
+        }
+    }
+}
