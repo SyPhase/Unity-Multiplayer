@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class PlayerAiming : NetworkBehaviour
 {
+    [Header("References")]
     [SerializeField] InputReader inputReader;
     [SerializeField] Transform turretTransform;
+    [Header("Settings")]
+    [Tooltip("Higher numbers allow for faster turret rotation.  Zero or negative numbers means no maximum, snaps instantly")]
+    [SerializeField] float aimSpeed = 0.5f;
 
 
     void LateUpdate() // Use LateUpdate instead of Update to solve jitter
@@ -17,6 +21,27 @@ public class PlayerAiming : NetworkBehaviour
         Vector2 aimScreenPosition = inputReader.AimPosition;
         Vector2 aimWorldPosition = Camera.main.ScreenToWorldPoint(aimScreenPosition);
 
-        turretTransform.up = new Vector2(aimWorldPosition.x - turretTransform.position.x, aimWorldPosition.y - turretTransform.position.y);
+        if (aimSpeed <= 0f) // Setting Transfrom.up
+        {
+            // Set rotation
+            turretTransform.up = new Vector2(aimWorldPosition.x - turretTransform.position.x, aimWorldPosition.y - turretTransform.position.y);
+        }
+        else // Using angles
+        {
+            Vector2 targetRelativePosition = new Vector2(aimWorldPosition.x - turretTransform.position.x, aimWorldPosition.y - turretTransform.position.y);
+            float targetAngle = (Mathf.Atan2(targetRelativePosition.y, targetRelativePosition.x) * Mathf.Rad2Deg) - 90f;
+            //turretTransform.rotation = Quaternion.Euler(new Vector3(0f, 0f, targetAngle)); // Sets to snap instantly to target
+
+            // Calculating and Clamping Angle
+            if (targetAngle < 0) { targetAngle += 360; }
+            float currentAngle = turretTransform.rotation.eulerAngles.z;
+            float angleDifference = targetAngle - currentAngle;
+            if (angleDifference > 180) { angleDifference -= 360; }
+            else if (angleDifference < -180) { angleDifference += 360; }
+            float rotateAmount = Mathf.Sign(angleDifference) * Mathf.Clamp(Mathf.Abs(angleDifference), 0f, aimSpeed);
+            
+            // Set rotation
+            turretTransform.rotation = Quaternion.Euler(new Vector3(0f, 0f, currentAngle + rotateAmount));
+        }
     }
 }
