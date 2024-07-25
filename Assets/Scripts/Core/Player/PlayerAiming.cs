@@ -10,7 +10,7 @@ public class PlayerAiming : NetworkBehaviour
     [SerializeField] Transform turretTransform;
     [Header("Settings")]
     [Tooltip("Higher numbers allow for faster turret rotation.  Zero or negative numbers means no maximum, snaps instantly")]
-    [SerializeField] float aimSpeed = 0.5f;
+    [SerializeField] float aimSpeed = 225f;
 
 
     void LateUpdate() // Use LateUpdate instead of Update to solve jitter
@@ -38,7 +38,7 @@ public class PlayerAiming : NetworkBehaviour
             float angleDifference = targetAngle - currentAngle;
             if (angleDifference > 180) { angleDifference -= 360; }
             else if (angleDifference < -180) { angleDifference += 360; }
-            float rotateAmount = Mathf.Sign(angleDifference) * Mathf.Clamp(Mathf.Abs(angleDifference), 0f, aimSpeed);
+            float rotateAmount = Mathf.Sign(angleDifference) * Mathf.Clamp(Mathf.Abs(angleDifference), 0f, aimSpeed * Time.deltaTime);
             
             // Set rotation
             turretTransform.rotation = Quaternion.Euler(new Vector3(0f, 0f, currentAngle + rotateAmount));
