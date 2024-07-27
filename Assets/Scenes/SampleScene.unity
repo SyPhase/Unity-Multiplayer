@@ -266,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 107420412}
   m_Layer: 0
-  m_Name: --- Environment ---
+  m_Name: ---------- Environment ----------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,7 +649,7 @@ GameObject:
   m_Component:
   - component: {fileID: 803483390}
   m_Layer: 0
-  m_Name: --- Managers ---
+  m_Name: ---------- Managers ----------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1591,7 +1591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080094799}
   m_Layer: 0
-  m_Name: --- UI ---
+  m_Name: ---------- UI ----------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
