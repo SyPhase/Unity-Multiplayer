@@ -11,11 +11,17 @@ public class PlayerShooting : NetworkBehaviour
     [SerializeField] Transform projectileSpawnPoint;
     [SerializeField] GameObject clientProjectilePrefab;
     [SerializeField] GameObject serverProjectilePrefab;
+    [SerializeField] GameObject muzzleFlash;
+    [SerializeField] Collider2D playerCollider;
 
     [Header("Settings")]
     [SerializeField] float projectileSpeed = 15f;
+    [SerializeField] float fireDelay = 1f;
+    [SerializeField] float muzzleFlashDuration = 0.3f;
 
     bool isFiring = false;
+    float previousFireTime = 0f;
+    float muzzleFlashTime = 0f;
 
      // Subscribes "HandlePrimary" Method to "Primary" Event
     public override void OnNetworkSpawn()
@@ -41,13 +47,28 @@ public class PlayerShooting : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) { return; }
+        // Shows muzzle flash for specified muzzleFlashTime in seconds
+        if (muzzleFlashTime > 0)
+        {
+            muzzleFlashTime -= Time.deltaTime;
 
-        if (!isFiring) { return; }
+            if (muzzleFlashTime < 0f)
+            {
+                muzzleFlash.SetActive(false);
+            }
+        }
+
+        if (!IsOwner) { return; } // Only owner can fire
+
+        if (!isFiring) { return; } // Only fire if isFiring (Primary is pressed)
+
+        if (Time.time < fireDelay + previousFireTime) { return; } // Only fire every fireDelay number of seconds
 
         PrimaryServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up); // ServerRpc
 
         SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up); // Local Method
+        
+        previousFireTime = Time.time; //  reset to current time when fired
     }
 
     // Client sends command to Server to spawn projectile
@@ -56,6 +77,12 @@ public class PlayerShooting : NetworkBehaviour
     {
         GameObject projectileInstance = Instantiate(serverProjectilePrefab, spawnPosition, Quaternion.identity);
         projectileInstance.transform.up = direction;
+        Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>()); // doesn't collider with owner's tank
+
+        if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+        {
+            rb.velocity = rb.transform.up * projectileSpeed;
+        }
 
         PrimaryClientRpc(spawnPosition, direction);
     }
@@ -72,7 +99,16 @@ public class PlayerShooting : NetworkBehaviour
     // Client spawns local dummy projectile (purely visual)
     void SpawnDummyProjectile(Vector3 spawnPosition, Vector3 direction)
     {
+        muzzleFlash.SetActive(true);
+        muzzleFlashTime = muzzleFlashDuration;
+
         GameObject projectileInstance = Instantiate(clientProjectilePrefab, spawnPosition, Quaternion.identity);
         projectileInstance.transform.up = direction;
+        Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>()); // doesn't collider with owner's tank
+
+        if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+        {
+            rb.velocity = rb.transform.up * projectileSpeed;
+        }
     }
 }
