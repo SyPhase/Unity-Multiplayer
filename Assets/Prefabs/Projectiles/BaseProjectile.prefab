@@ -109,5 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnTrigger: 1
-  destroyAfterSeconds: 1
-  secondsToSelfDestruct: 2
+  destroyOnTriggerDelay: 0
+  destroyAfterTime: 1
+  destroyAfterTimeDelay: 2

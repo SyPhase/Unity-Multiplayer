@@ -5,16 +5,21 @@ using UnityEngine;
 public class SelfDestroy : MonoBehaviour
 {
     [SerializeField] bool destroyOnTrigger = false;
-    [SerializeField] bool destroyAfterSeconds = false;
-    [SerializeField] float secondsToSelfDestruct = 2f;
+    [SerializeField] float destroyOnTriggerDelay = 0f;
+    [SerializeField] bool destroyAfterTime = false;
+    [SerializeField] float destroyAfterTimeDelay = 2f;
 
     void Start()
     {
-        if (destroyAfterSeconds) { Destroy(gameObject, 2f); }
+        if (!destroyAfterTime) { return; }
+
+        Destroy(gameObject, destroyAfterTimeDelay);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (destroyOnTrigger) { Destroy(gameObject); }
+        if (!destroyOnTrigger) { return; }
+
+        Destroy(gameObject, destroyOnTriggerDelay);
     }
 }
