@@ -79,6 +79,12 @@ public class PlayerShooting : NetworkBehaviour
         projectileInstance.transform.up = direction;
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>()); // doesn't collider with owner's tank
 
+        // Set's Owner ID on projectile to ignore damage from self (may be redundant because of "IgnoreCollision" just above)
+        if (projectileInstance.TryGetComponent<DamageOnTrigger>(out DamageOnTrigger damageOnTrigger))
+        {
+            damageOnTrigger.SetOwner(OwnerClientId);
+        }
+
         if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
         {
             rb.velocity = rb.transform.up * projectileSpeed;
