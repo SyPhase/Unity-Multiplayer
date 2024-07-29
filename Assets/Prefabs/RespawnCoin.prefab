@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &507183824465729913
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3157298915065814180, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 897052534
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157298915065814180, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 811477927
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709810812245212855, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: m_Name
+      value: RespawnCoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568900179877275968, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568900179877275968, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568900179877275968, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3709810812245212855, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5093981447051583762}
+  m_SourcePrefab: {fileID: 100100000, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+--- !u!1 &3779087742233601998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3709810812245212855, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+  m_PrefabInstance: {fileID: 507183824465729913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5093981447051583762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3779087742233601998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 391952cf9eb8d7d47b80f0c8694f48b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3824302219995212742}
+--- !u!212 &3824302219995212742 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3610558257943802559, guid: 1e44a0874a7339144a0895f2f8242cf7, type: 3}
+  m_PrefabInstance: {fileID: 507183824465729913}
+  m_PrefabAsset: {fileID: 0}
