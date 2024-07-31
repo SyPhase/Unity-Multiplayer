@@ -9,7 +9,7 @@ public class CoinWallet : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!TryGetComponent<Coin>(out Coin coin)) { return; }
+        if (!other.TryGetComponent<Coin>(out Coin coin)) { return; }
 
         int coinValue = coin.Collect();
 
