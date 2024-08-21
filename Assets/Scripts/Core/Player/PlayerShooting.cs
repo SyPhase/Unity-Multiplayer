@@ -18,7 +18,7 @@ public class PlayerShooting : NetworkBehaviour
     [Header("Settings")]
     [SerializeField] float projectileSpeed = 15f;
     [SerializeField] float fireDelay = 1f;
-    [SerializeField] float muzzleFlashDuration = 0.3f;
+    [SerializeField] float muzzleFlashDuration = 0.075f;
     [Tooltip("If zero, fires for free.  If positive number, requires that much money to fire one shot")]
     [SerializeField] int costToFire = 1;
 
