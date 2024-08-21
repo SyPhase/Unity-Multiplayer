@@ -8,6 +8,7 @@ public class PlayerShooting : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] InputReader inputReader;
+    [SerializeField] CoinWallet coinWallet;
     [SerializeField] Transform projectileSpawnPoint;
     [SerializeField] GameObject clientProjectilePrefab;
     [SerializeField] GameObject serverProjectilePrefab;
@@ -18,6 +19,7 @@ public class PlayerShooting : NetworkBehaviour
     [SerializeField] float projectileSpeed = 15f;
     [SerializeField] float fireDelay = 1f;
     [SerializeField] float muzzleFlashDuration = 0.3f;
+    [Tooltip("If zero, fires for free.  If positive number, requires that much money to fire one shot")]
     [SerializeField] int costToFire = 1;
 
     bool isFiring = false;
@@ -67,6 +69,8 @@ public class PlayerShooting : NetworkBehaviour
 
         if (timer > 0) { return; } // Only fire every fireDelay number of seconds
 
+        if (coinWallet.TotalCoins.Value < costToFire) { return; } // Only allow firing if enough coins can be spent
+
         PrimaryServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up); // ServerRpc
 
         SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up); // Local Method
@@ -78,6 +82,9 @@ public class PlayerShooting : NetworkBehaviour
     [ServerRpc]
     void PrimaryServerRpc(Vector3 spawnPosition, Vector3 direction)
     {
+        if (coinWallet.TotalCoins.Value < costToFire) { return; } // Only allow firing if enough coins can be spent
+        coinWallet.SpendCoins(costToFire);
+
         GameObject projectileInstance = Instantiate(serverProjectilePrefab, spawnPosition, Quaternion.identity);
         projectileInstance.transform.up = direction;
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>()); // doesn't collider with owner's tank
