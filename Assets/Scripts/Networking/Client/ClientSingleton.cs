@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ClientSingleton : MonoBehaviour
 {
-
     public ClientGameManager GameManager { get; private set; }
 
     static ClientSingleton instance;
