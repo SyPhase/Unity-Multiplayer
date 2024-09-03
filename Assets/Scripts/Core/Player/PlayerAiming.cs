@@ -12,6 +12,12 @@ public class PlayerAiming : NetworkBehaviour
     [Tooltip("Higher numbers allow for faster turret rotation.  Zero or negative numbers means no maximum, snaps instantly")]
     [SerializeField] float aimSpeed = 225f;
 
+    Camera playerCam;
+
+    void Start()//public override void OnNetworkSpawn()
+    {
+        playerCam = GetComponentInChildren<Camera>();
+    }
 
     void LateUpdate() // Use LateUpdate instead of Update to solve jitter
     {
@@ -19,7 +25,7 @@ public class PlayerAiming : NetworkBehaviour
         if (!IsOwner) { return; }
 
         Vector2 aimScreenPosition = inputReader.AimPosition;
-        Vector2 aimWorldPosition = Camera.main.ScreenToWorldPoint(aimScreenPosition);
+        Vector2 aimWorldPosition = playerCam.ScreenToWorldPoint(aimScreenPosition);
 
         if (aimSpeed <= 0f) // Setting Transfrom.up
         {

@@ -5,22 +5,9 @@ using Unity.Netcode;
 
 public class FollowCamera : NetworkBehaviour
 {
-    Transform mainCamera;
-
-    public override void OnNetworkSpawn()
+    void Update()
     {
-        if (!IsOwner) { return; }
-
-        mainCamera = Camera.main.transform;
-        mainCamera.SetParent(transform);
-        mainCamera.position = new Vector3(0f, 0f, mainCamera.position.z);
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        if (!IsOwner) { return; }
-
-        mainCamera.SetParent(null);
-        mainCamera.position = new Vector3(0f, 0f, mainCamera.position.z);
+        if (IsOwner) { return; }
+        Destroy(gameObject); // Destory this and camera on other players prefabs
     }
 }
