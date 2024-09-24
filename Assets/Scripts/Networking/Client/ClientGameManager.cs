@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -52,6 +53,16 @@ public class ClientGameManager
         RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
         transport.SetRelayServerData(relayServerData);
 
+        // Create UserData object to send to server when requesting connection
+        UserData userData = new UserData()
+        {
+            userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name")
+        };
+        string payload = JsonUtility.ToJson(userData); // Convert userData to payload (byte array) to send over network
+        byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes; // Set payload (byte array) as connection data, will be sent when connection starts
+
+        // Start game as Client
         NetworkManager.Singleton.StartClient();
     }
 }
