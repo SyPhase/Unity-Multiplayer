@@ -14,15 +14,21 @@ public class PlayerAiming : NetworkBehaviour
 
     Camera playerCam;
 
-    void Start()//public override void OnNetworkSpawn()
+    void Start() //public override void OnNetworkSpawn()
     {
         playerCam = GetComponentInChildren<Camera>();
+        if (playerCam == null)
+        {
+            playerCam = FindObjectOfType<Camera>();
+        }
     }
 
     void LateUpdate() // Use LateUpdate instead of Update to solve jitter
     {
         // Authority Check
         if (!IsOwner) { return; }
+
+        if (playerCam == null) { playerCam = FindObjectOfType<Camera>(); }
 
         Vector2 aimScreenPosition = inputReader.AimPosition;
         Vector2 aimWorldPosition = playerCam.ScreenToWorldPoint(aimScreenPosition);
