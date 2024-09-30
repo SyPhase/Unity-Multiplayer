@@ -18,7 +18,7 @@ public class HostGameManager : IDisposable
     Allocation allocation;
     string joinCode;
     string lobbyId;
-    NetworkServer networkServer;
+    public NetworkServer NetworkServer { get; private set; }
 
     const int MaxConnections = 20; // Max Players Connected
     const string GameSceneName = "Game"; // name of main game scene (currently 'Game')
@@ -81,7 +81,7 @@ public class HostGameManager : IDisposable
         }
 
         // Create NetworkServer object (to handle connection requests)
-        networkServer = new NetworkServer(NetworkManager.Singleton);
+        NetworkServer = new NetworkServer(NetworkManager.Singleton);
 
         // Create UserData object to send to server when requesting connection
         UserData userData = new UserData()
@@ -130,6 +130,6 @@ public class HostGameManager : IDisposable
             lobbyId = string.Empty;
         }
 
-        networkServer?.Dispose();
+        NetworkServer?.Dispose();
     }
 }
