@@ -1344,6 +1344,7 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
+  <Health>k__BackingField: {fileID: 8316550732670411834}
   ownerCamPriority: 50
 --- !u!114 &2437955019409610099
 MonoBehaviour:
@@ -1428,7 +1429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotalCoins:
-    m_InternalValue: 0
+    m_InternalValue: 10
 --- !u!1 &8766216956378302127
 GameObject:
   m_ObjectHideFlags: 0

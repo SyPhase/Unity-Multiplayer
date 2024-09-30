@@ -10,7 +10,7 @@ public class TankPlayer : NetworkBehaviour
 {
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>(); // Network Synced String
 
-    public Health Health { get; private set; } //[field: SerializeField]
+    [field: SerializeField] public Health Health { get; private set; }
 
     [SerializeField] int ownerCamPriority = 50;
 
@@ -32,9 +32,6 @@ public class TankPlayer : NetworkBehaviour
 
         if (IsOwner)
         {
-            // Reference to Health script on own tank
-            Health = GetComponent<Health>();
-
             // Owner set higher priority on owned vCam
             vCam = GetComponentInChildren<CinemachineVirtualCamera>();
             vCam.Priority = ownerCamPriority;
