@@ -13,9 +13,10 @@ public class RespawnHandler : NetworkBehaviour
         if (!IsServer) { return; }
 
         TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
-        foreach (TankPlayer player in players)
+        foreach (TankPlayer player in players) // in case of tank already spawned
         {
             HandlePlayerSpawned(player);
+            player.transform.position = SpawnPoint.GetRandomSpawnPos();
         }
 
         TankPlayer.OnPlayerSpawned += HandlePlayerSpawned;
