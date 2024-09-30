@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -9,9 +10,14 @@ public class TankPlayer : NetworkBehaviour
 {
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>(); // Network Synced String
 
+    public Health Health { get; private set; } //[field: SerializeField]
+
     [SerializeField] int ownerCamPriority = 50;
 
     CinemachineVirtualCamera vCam;
+
+    public static event Action<TankPlayer> OnPlayerSpawned;
+    public static event Action<TankPlayer> OnPlayerDespawned;
 
     public override void OnNetworkSpawn()
     {
@@ -20,13 +26,26 @@ public class TankPlayer : NetworkBehaviour
             // Server set username
             UserData userData = HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
             PlayerName.Value = userData.userName;
+
+            OnPlayerSpawned?.Invoke(this);
         }
 
         if (IsOwner)
         {
+            // Reference to Health script on own tank
+            Health = GetComponent<Health>();
+
             // Owner set higher priority on owned vCam
             vCam = GetComponentInChildren<CinemachineVirtualCamera>();
             vCam.Priority = ownerCamPriority;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            OnPlayerDespawned?.Invoke(this);
         }
     }
 }
